@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+
+}
+
+
+a {
+  color: #00B7FF;
+}
+
+a.navbar-brand {
+  font-weight: bold;
+  font-size: x-large;
+  color: rgb(0, 66, 165);
+}
+
+a.nav-link {
+  font-weight: bold;
+  font-size: large;
+}
