@@ -18,7 +18,22 @@ router
     res.render("contact");
   })
   .post(function (req, res, next) {
-    res.render("thank");
+    req.checkBody("name", "Empty name").notEmpty();
+    req.checkBody("email", "Invalid email").notEmpty();
+    req.checkBody("message", "Empty message").notEmpty();
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      res.render("contact", {
+        name: req.body.name,
+        email: req.body.email,
+        message: req.body.message,
+        errorMessages: errors,
+      });
+    } else {
+      res.render("thank");
+    }
   });
 
 module.exports = router;

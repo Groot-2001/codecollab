@@ -1,16 +1,21 @@
 <h1 class="text-center">Contact</h1>
 <form method="post">
+  {{#each errorMessages}}
+      <div class="alert alert-danger">
+        {{this.msg}}
+      </div>
+  {{/each}}
   <div class="mb-3 w-25">
     <label for="uname" class="form-label">Name:</label>
-    <input type="text" class="form-control" id="uname" aria-describedby="emailHelp">
+    <input type="text" class="form-control" id="uname" name="name" value={{name}} >
   </div>
   <div class="mb-3 w-25">
     <label for="umail" class="form-label">Email address:</label>
-    <input type="email" class="form-control" id="umail">
+    <input type="email" class="form-control" id="umail" name="email" value={{email}}>
   </div>
   <div class="mb-3 w-25">
     <label for="umsg" class="form-label">Message:</label>
-    <textarea class="form-control" name="text" id="umsg" rows="3"></textarea>
+    <textarea class="form-control" name="message" id="umsg" rows="3">{{message}}</textarea>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
 </form>
