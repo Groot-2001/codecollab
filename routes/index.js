@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
-
+let nodemailer = require("nodemailer");
+const config = require("../config");
+let transporter = nodemailer.createTransport(config.mailer);
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
@@ -32,7 +34,20 @@ router
         errorMessages: errors,
       });
     } else {
-      res.render("thank");
+      const mailOptions = {
+        from: "CodeCollab <no-reply@CodeCollab.com",
+        to: "demo.codecollab@gmail.com",
+        subject: "You got new message from visitor",
+        text: req.body.message,
+      };
+
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        res.render("thank");
+      });
     }
   });
 
