@@ -4,8 +4,8 @@ module.exports = {
   mailer: {
     service: "gmail",
     auth: {
-      user: "demo.codecollab786@gmail.com",
-      pass: "xpetewimsnriagmt",
+      user: "Your email address",
+      pass: "Your pass word here or your app password",
     },
   },
 };
