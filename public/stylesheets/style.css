@@ -36,3 +36,10 @@ a.nav-link {
   font-weight: bold;
   font-size: large;
 }
+
+.auth-point {
+  display: flex;
+  gap: 1.5rem;
+  list-style-type: none;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
