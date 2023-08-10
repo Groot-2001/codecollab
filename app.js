@@ -1,20 +1,20 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-let expressValidator = require("express-validator");
-const passport = require("passport");
-const mongoose = require("mongoose");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const expressValidator = require("express-validator");
 const exSession = require("express-session");
 
-require("./passport-config");
 const config = require("./config");
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
 
-var app = express();
-mongoose.connect(config.dbconfig);
+require("./passport-config");
+const db = require("./db");
+const app = express();
+
+db();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -36,7 +36,7 @@ app.use(
 );
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

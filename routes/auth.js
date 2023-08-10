@@ -3,10 +3,10 @@ var router = express.Router();
 
 router
   .route("/register")
-  .get("/register", (req, res, next) => {
+  .get((req, res, next) => {
     res.render("register");
   })
-  .post("register", (req, res, next) => {
+  .post((req, res, next) => {
     req.checkBody("name", "Invalid name").notEmpty();
     req.checkBody("email", "Invalid email").isEmail();
     req.checkBody("password", "Invalid password").notEmpty();
@@ -32,7 +32,7 @@ router
         if (err) {
           res.render("register", { errorMessages: err });
         } else {
-          res.render("/login");
+          res.render("login");
         }
       });
     }
@@ -41,3 +41,5 @@ router
 router.get("/login", (req, res, next) => {
   res.render("login");
 });
+
+module.exports = router;
