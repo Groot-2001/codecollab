@@ -1,4 +1,9 @@
 <form action="/register" class="form-signin mh-100 bg-warning" method="post">
+  {{#each errorMessages}}
+    <div class="reg-error">
+      {{this.msg}}
+    </div>
+  {{/each}}
   <h2 class="form-signin-header text-center text-primary">New Account</h2>
   <input
     type="text"
@@ -28,7 +33,7 @@
   <br />
   <input
     type="password"
-    name="Confirm Password"
+    name="confirmPassword"
     class="form-control"
     placeholder="Confirm your Password"
   />

@@ -1,3 +1,4 @@
+//importing some of the dependencies
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -5,21 +6,26 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const expressValidator = require("express-validator");
 const exSession = require("express-session");
+const passport = require("passport");
 
+//couple of imports
 const config = require("./config");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
-
-require("./passport-config");
 const db = require("./db");
+require("./passport-config");
+
+//express app instance
 const app = express();
 
+//database setup
 db();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
+//middlewares
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,7 +40,10 @@ app.use(
     cookie: { secure: true },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
+// Api Endpoints
 app.use("/", indexRouter);
 app.use("/", authRouter);
 

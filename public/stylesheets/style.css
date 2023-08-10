@@ -43,3 +43,11 @@ a.nav-link {
   list-style-type: none;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
+.reg-error {
+  font: 1em sans-serif;
+  color: red;
+  padding: 8px;
+  border: 1px dashed red;
+  background: white;
+}

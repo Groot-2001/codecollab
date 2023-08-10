@@ -16,7 +16,7 @@ const UserSchema = new Schema(
     hash: String,
     salt: String,
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 UserSchema.methods.setPassword = function (password) {

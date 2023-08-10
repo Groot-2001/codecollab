@@ -1,4 +1,5 @@
 var express = require("express");
+const User = require("../models/users");
 var router = express.Router();
 
 router
@@ -6,12 +7,12 @@ router
   .get((req, res, next) => {
     res.render("register");
   })
-  .post((req, res, next) => {
-    req.checkBody("name", "Invalid name").notEmpty();
+  .post(async (req, res, next) => {
+    req.checkBody("username", "Invalid name").notEmpty();
     req.checkBody("email", "Invalid email").isEmail();
     req.checkBody("password", "Invalid password").notEmpty();
     req
-      .checkBody("password", "passwords do not matched")
+      .checkBody("confirmPassword", "passwords do not matched")
       .equals(req.body.confirmPassword)
       .notEmpty();
     let errors = req.validationErrors();
@@ -24,17 +25,24 @@ router
         errorMessages: errors,
       });
     } else {
-      let user = new User();
-      user.name = req.body.name;
-      user.email = req.body.email;
-      user.setPassword = req.body.password;
-      user.save((err) => {
-        if (err) {
-          res.render("register", { errorMessages: err });
-        } else {
-          res.render("login");
+      try {
+        const user = new User({
+          name: req.body.username,
+          email: req.body.email,
+        });
+        user.setPassword(req.body.password);
+        await user.save();
+        res.render("login");
+      } catch (error) {
+        if (error) {
+          console.log(error);
+          res.render("register", { errorMessages: error });
         }
-      });
+        return res.status(500).json({
+          message: "Internal Server Error!",
+          error,
+        });
+      }
     }
   });
 
