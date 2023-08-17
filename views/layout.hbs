@@ -52,21 +52,31 @@
               <a class="nav-link" href="/contact">Contact</a>
             </li>
           </ul>
-          <div class="auth-point">
-            <li class="auth-point-item">
-              <a class="auth-point-log btn btn-primary" href="/login">Login</a>
-            </li>
-            <li class="auth-point-item">
-              <a
-                class="auth-point-reg btn btn-primary"
-                href="/register"
-              >Register</a>
-            </li>
-          </div>
+          <ul class="nav navbar-nav navbar-right">
+            {{#if user}}
+              <li class="dropdown">
+                <button
+                  href="#"
+                  class="btn btn-secondary dropdown-toggle ml-xl-6"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >{{user.name}}<span class="caret"></span></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+              </li>
+            {{else}}
+              <li><a class="btn btn-primary" href="/login">login</a></li>
+              &nbsp;
+              <li><a class="btn btn-primary" href="/register">Register</a></li>
+            {{/if}}
+          </ul>
         </div>
       </div>
     </nav>
-
     {{{body}}}
   </body>
 </html>

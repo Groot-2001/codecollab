@@ -1,4 +1,9 @@
 <form action="/login" class="form-signin h-50 bg-warning" method="post">
+  {{#each errorMessages}}
+    <div class="reg-error">
+      {{this.msg}}
+    </div>
+  {{/each}}
   <h2 class="form-signin-header text-center text-primary">Login Portal</h2>
   <input
     type="email"

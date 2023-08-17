@@ -21,7 +21,6 @@ form {
   margin: 0 auto;
 }
 
-
 a {
   color: #00B7FF;
 }
@@ -37,12 +36,6 @@ a.nav-link {
   font-size: large;
 }
 
-.auth-point {
-  display: flex;
-  gap: 1.5rem;
-  list-style-type: none;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
 
 .reg-error {
   font: 1em sans-serif;
@@ -50,4 +43,8 @@ a.nav-link {
   padding: 8px;
   border: 1px dashed red;
   background: white;
+}
+
+.ml-xl-6 {
+  margin-left: 4rem;
 }

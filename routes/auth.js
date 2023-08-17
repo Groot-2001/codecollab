@@ -1,4 +1,5 @@
 var express = require("express");
+const passport = require("passport");
 const User = require("../models/users");
 var router = express.Router();
 
@@ -8,6 +9,7 @@ router
     res.render("register");
   })
   .post(async (req, res, next) => {
+    /** basic validation handled with express-validator */
     req.checkBody("username", "Invalid name").notEmpty();
     req.checkBody("email", "Invalid email").isEmail();
     req.checkBody("password", "Invalid password").notEmpty();
@@ -50,4 +52,24 @@ router.get("/login", (req, res, next) => {
   res.render("login");
 });
 
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+  })
+);
+
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+  });
+  res.redirect("/");
+});
+
+router.get("/dashboard", (req, res, next) => {
+  res.render("dashboard");
+});
 module.exports = router;

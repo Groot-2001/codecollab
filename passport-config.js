@@ -1,14 +1,23 @@
 const passport = require("passport");
+const User = require("./models/users");
 const LocalStrategy = require("passport-local").Strategy;
 
 passport.serializeUser((user, done) => {
-  done(null, user._id);
+  console.log(user);
+  done(null, user.email);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findOne({ _id: id }, (err, user) => {
-    done(err, user);
-  });
+passport.deserializeUser(async (email, done) => {
+  try {
+    let user = await User.findOne({ email });
+    if (!user) {
+      return done(new Error("user not found"));
+    }
+    console.log(user);
+    done(null, user);
+  } catch (e) {
+    done(e);
+  }
 });
 
 passport.use(
@@ -16,9 +25,9 @@ passport.use(
     {
       usernameField: "email",
     },
-    (username, password, done) => {
-      User.findOne({ email: username }, (err, done) => {
-        if (err) return done(err);
+    async (email, password, done) => {
+      try {
+        const user = await User.findOne({ email });
         if (!user) {
           return done(null, false, {
             message: "username or password is Invalid",
@@ -30,7 +39,9 @@ passport.use(
           });
         }
         return done(null, user);
-      });
+      } catch (error) {
+        console.error(error);
+      }
     }
   )
 );

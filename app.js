@@ -8,7 +8,7 @@ const expressValidator = require("express-validator");
 const exSession = require("express-session");
 const passport = require("passport");
 
-//couple of imports
+//importing some utility functions
 const config = require("./config");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
@@ -29,19 +29,28 @@ app.set("view engine", "hbs");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 app.use(expressValidator());
+
+app.use(cookieParser());
 app.use(
   exSession({
     secret: config.sessionKey,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(path.join(__dirname, "public")));
+
+//auth middleware
+app.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.user = req.user;
+  }
+  next();
+});
 
 // Api Endpoints
 app.use("/", indexRouter);
