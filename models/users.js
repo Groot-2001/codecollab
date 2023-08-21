@@ -15,6 +15,7 @@ const UserSchema = new Schema(
     },
     hash: String,
     salt: String,
+    facebookId: String,
   },
   { timestamps: true, versionKey: false }
 );

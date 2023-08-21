@@ -22,6 +22,7 @@ const app = express();
 db();
 
 // view engine setup
+app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
@@ -42,11 +43,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, "public")));
-
 //auth middleware
 app.use((req, res, next) => {
   if (req.isAuthenticated()) {
+    console.log(req.user);
     res.locals.user = req.user;
   }
   next();

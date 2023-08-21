@@ -61,15 +61,40 @@ router.post(
 );
 
 router.get("/logout", function (req, res, next) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
+  req.session.destroy(function (err) {
+    res.redirect("/"); //Inside a callback… bulletproof!
   });
-  res.redirect("/");
 });
 
 router.get("/dashboard", (req, res, next) => {
-  res.render("dashboard");
+  const userinfo = {
+    name: req.session.passport.user.displayName,
+    id: req.session.passport.user.id,
+  };
+
+  res.render("dashboard", {
+    user: userinfo,
+  });
 });
+
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", {
+    authType: "reauthenticate",
+    scope: ["public_profile", "email"],
+  })
+);
+
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: "/login",
+    failureMessage: true,
+  }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/dashboard");
+  }
+);
+
 module.exports = router;
