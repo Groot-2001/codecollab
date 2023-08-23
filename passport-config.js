@@ -45,10 +45,13 @@ const verifyCallback = async (accessToken, refreshToken, profile, cb) => {
   if (!user) {
     console.log("Adding new user to DB");
     const user = await User.create({
-      name: profile.displayName,
+      name: profile.name.givenName,
       email: profile.emails[0].value,
       facebookId: profile.id,
     });
+    if (!user) {
+      return cb(null, false, { message: "Can't save user info" });
+    }
     await user.save();
     return cb(null, profile);
   } else {
@@ -63,7 +66,7 @@ passport.use(
       clientID: config.app_id,
       clientSecret: config.app_secret,
       callbackURL: config.app_callbackUrl,
-      profileFields: ["id", "displayName", "emails"],
+      profileFields: ["id", "name", "emails"],
       enableProof: true,
     },
     verifyCallback

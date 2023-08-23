@@ -7,11 +7,13 @@ const logger = require("morgan");
 const expressValidator = require("express-validator");
 const exSession = require("express-session");
 const passport = require("passport");
+const hbs = require("hbs");
 
 //importing some utility functions
 const config = require("./config");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const taskRouter = require("./routes/task");
 const db = require("./db");
 require("./passport-config");
 
@@ -25,6 +27,17 @@ db();
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+
+hbs.registerHelper("isObject", function (object, options) {
+  console.log("object:", object);
+  if (typeof object === "object") {
+    console.log("its an object");
+    return options.fn(this);
+  } else {
+    console.log("not an object");
+    return options.inverse(this);
+  }
+});
 
 //middlewares
 app.use(logger("dev"));
@@ -46,7 +59,6 @@ app.use(passport.session());
 //auth middleware
 app.use((req, res, next) => {
   if (req.isAuthenticated()) {
-    console.log(req.user);
     res.locals.user = req.user;
   }
   next();
@@ -55,6 +67,7 @@ app.use((req, res, next) => {
 // Api Endpoints
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/", taskRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

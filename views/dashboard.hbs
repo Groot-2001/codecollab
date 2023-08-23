@@ -1,1 +1,9 @@
-<p>Welcome! <b>{{user.name}}</b></p>
+{{#if user.name}}
+  <p>Welcome! <b>{{user.name}}</b></p>
+{{else}}
+  <p>Welcome! <b>{{user.name.givenName}}</b></p>
+{{/if}}
+
+{{#if user}}
+  <a href="/createTask" class="btn btn-primary btn-block">Create New Task</a>
+{{/if}}

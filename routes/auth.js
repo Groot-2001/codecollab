@@ -67,14 +67,27 @@ router.get("/logout", function (req, res, next) {
 });
 
 router.get("/dashboard", (req, res, next) => {
-  const userinfo = {
-    name: req.session.passport.user.displayName,
-    id: req.session.passport.user.id,
-  };
+  console.log(req.session);
+  const vuser = req.session.passport.user.name;
+  console.log(vuser);
 
-  res.render("dashboard", {
-    user: userinfo,
-  });
+  if (typeof vuser === "object") {
+    const userinfo = {
+      name: req.session.passport.user.name.givenName,
+      id: req.session.passport.user.id,
+    };
+    res.render("dashboard", {
+      user: userinfo,
+    });
+  } else {
+    const userinfo = {
+      name: req.session.passport.user.name,
+      id: req.session.passport.user._id,
+    };
+    res.render("dashboard", {
+      user: userinfo,
+    });
+  }
 });
 
 router.get(
@@ -92,7 +105,7 @@ router.get(
     failureMessage: true,
   }),
   function (req, res) {
-    // Successful authentication, redirect home.
+    // Successful authentication, redirect dashboard.
     res.redirect("/dashboard");
   }
 );
