@@ -67,9 +67,7 @@ router.get("/logout", function (req, res, next) {
 });
 
 router.get("/dashboard", (req, res, next) => {
-  console.log(req.session);
   const vuser = req.session.passport.user.name;
-  console.log(vuser);
 
   if (typeof vuser === "object") {
     const userinfo = {

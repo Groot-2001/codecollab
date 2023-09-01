@@ -4,6 +4,7 @@ body {
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   height: 100vh;
+  color: #000;
 }
 
 form {
@@ -48,4 +49,63 @@ a.nav-link {
 
 .ml-xl-6 {
   margin-left: 4rem;
+}
+
+.row {
+  --bs-gutter-x: -0.5rem;
+}
+
+.panel-primary {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background-color: rgb(77, 106, 136);
+  padding: 0.5em;
+  border-radius: 15px 15px 0px 0px;
+  color: white;
+}
+
+.panel-body {
+  padding-left: 0.5px;
+  background-color: tan;
+}
+
+.panel-footer {
+  padding: 0.5em;
+  background-color: rgb(77, 106, 136);
+}
+
+.media {
+  list-style-type: none;
+}
+
+.media-list {
+  margin-bottom: 0;
+}
+
+.pull-right {
+  float: right;
+  color: rgb(0, 211, 148);
+}
+
+#chatbox {
+  border-radius: 15px 15px 0px 0px;
+  border: 2px solid rgb(77, 106, 136);
+}
+
+.Pad {
+  border-radius: 15px 15px 0px 0px;
+  padding: 1rem;
+}
+
+.task-wrapper {
+  margin: 0;
+}
+
+.message {
+  border: 2px solid rgb(63, 63, 63);
+  margin-right: 5px;
+}
+
+.user-left {
+  color: rgb(47, 101, 182);
 }
