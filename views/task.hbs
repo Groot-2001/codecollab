@@ -1,7 +1,7 @@
 <div class="task-wrapper">
   <div class="row">
     <div class="col-md-8 Pad">
-      <textarea id="code-screen"></textarea>
+      <textarea id="code-screen">{{content}}</textarea>
     </div>
     <div class="col-md-4" id="chatbox">
       <div class="panel panel-primary">
@@ -55,9 +55,13 @@
       theme: "monokai",
     })
 
+  let code = $("#code-screen").val();
+
   let cmClient;
   function init(str, revision, clients, serverAdapter) {
-    editor.setValue(str);
+    if (!code) {
+      editor.setValue(str);
+    }
     cmClient = window.cmClient = new EditorClient(
       revision, clients, serverAdapter, new CodeMirrorAdapter(editor)
     )

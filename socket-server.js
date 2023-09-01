@@ -2,11 +2,14 @@
 
 const socketIo = require("socket.io");
 const ot = require("ot");
+const Task = require("./models/task");
 
 let roomlist = {};
 
 module.exports = (server) => {
-  let str = "this is a Markdown heading \n\n" + "const i = i + 1;";
+  let str =
+    "//Welcome! folks on CodeCollab \n" +
+    `console.log("Let's get Started!");\n`;
 
   const Io = socketIo(server);
 
@@ -20,8 +23,17 @@ module.exports = (server) => {
           str,
           [],
           data.room,
-          function (socket, cb) {
-            cb(true);
+          async function (socket, cb) {
+            try {
+              let self = this;
+              await Task.findByIdAndUpdate(data.room, {
+                content: self.document,
+              });
+              cb(true);
+            } catch (error) {
+              console.error("Internal server Error", error);
+              cb(false);
+            }
           }
         );
         roomlist[data.room] = socketIOServer;
