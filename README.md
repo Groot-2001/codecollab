@@ -1,4 +1,5 @@
 # codecollab
 
-<p>Live Url:</p> [live url](https://glitch.com/edit/#!/codecollab)
-<p>glitch:</p> [live code](https://glitch.com/edit/#!/codecollab)
+Live Url: [live url](https://codecollab.glitch.me))
+
+glitch: [live code](https://glitch.com/edit/#!/codecollab)
