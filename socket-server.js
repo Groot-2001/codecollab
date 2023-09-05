@@ -14,10 +14,7 @@ module.exports = (server) => {
   const Io = socketIo(server);
 
   Io.on("connection", (socket) => {
-    console.log("new websocket connection made!");
-
     socket.on("joinRoom", function (data) {
-      console.log(data);
       if (!roomlist[data.room]) {
         let socketIOServer = new ot.EditorSocketIOServer(
           str,

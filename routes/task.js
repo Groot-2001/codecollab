@@ -17,7 +17,6 @@ router.get("/task/:id", async (req, res) => {
     if (req.params.id) {
       const task = await Task.findOne({ _id: req.params.id });
       if (task) {
-        console.log(task);
         res.render("task", { content: task.content, roomId: task.id });
       } else {
         console.log("error: error while finding the task from db..");

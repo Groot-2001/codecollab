@@ -5,6 +5,26 @@
     </div>
     <div class="col-md-4" id="chatbox">
       <div class="panel panel-primary">
+        {{!-- VIDEO-CALL --}}
+        <div id="video-container">
+          <video autoplay id="second-video"></video>
+          <video autoplay id="my-video" muted="true"></video>
+          <div id="step2">
+            <p>Your ID: <span id="my-id">...</span></p>
+            <div class="form-inline">
+              <input type="text" class="form-control" placeholder="Call User ID..." id="callToId">
+              <a href="#" class="btn btn-sm btn-success" id="make-call">Call</a>
+            </div>
+          </div>
+          <div id="step3">
+            <br>
+            <p>
+              Talk to <span id="second-id">...</span>
+              <a href="#" class="btn btn-sm btn-danger" id="end-call">End Call</a>
+            </p>
+          </div>
+        </div>
+        {{!-- CHAT ROOM --}}
         <div class="panel-heading">
           CHAT ROOM
           <span class="pull-right" id="chatbox-username">
@@ -16,7 +36,7 @@
           </span>
         </div>
         <div class="panel-body">
-          <ul class="media-list" style="height: 300px; overflow-y:scroll" id="chatbox-listMessages">
+          <ul class="media-list" style="height: 200px; overflow-y:scroll" id="chatbox-listMessages">
           </ul>
         </div>
         <div class="panel-footer">
@@ -37,7 +57,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
 <script src="/plugins/ot/ot.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
-
+<script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+<script src="/js/peer-config.js"></script>
 <script>
 
   var EditorClient = ot.EditorClient;
@@ -99,6 +120,5 @@
   socket.on("chatMessage", function (data) {
     $("#chatbox-listMessages").append(userMessage(data.username, data.message));
   })
-
 
 </script>

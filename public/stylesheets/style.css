@@ -23,6 +23,40 @@ form {
   border-radius: 1em;
 }
 
+.CodeMirror {
+  height: 500px;
+}
+
+*,
+*::before,
+*::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#my-video {
+  margin-top: 15px;
+  width: 280px;
+  height: auto;
+  background-color: #eee;
+}
+
+#second-video {
+  width: 100%;
+  height: 40%;
+  max-height: 480px;
+  background-color: #eee;
+}
+
+#video-container {
+  text-align: center;
+}
+
+#my-id {
+  font-weight: bold;
+}
+
 a {
   color: #00B7FF;
 }
@@ -85,6 +119,12 @@ a.nav-link {
 .pull-right {
   float: right;
   color: rgb(0, 211, 148);
+}
+
+#step1,
+#step2,
+#step3 {
+  display: none;
 }
 
 #chatbox {
