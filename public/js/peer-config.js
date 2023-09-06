@@ -50,7 +50,7 @@ function step1() {
       function (stream) {
         // Set your video displays
         $("#my-video").prop("src", URL.createObjectURL(stream));
-
+        $("#my-video").get(0).play();
         window.localStream = stream;
         step2();
       },
@@ -77,6 +77,7 @@ function step3(call) {
   // Wait for stream on the call, then set peer video display
   call.on("stream", function (stream) {
     $("#second-video").prop("src", URL.createObjectURL(stream));
+    $("#second-video").get(0).play();
   });
 
   // UI stuff
