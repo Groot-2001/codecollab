@@ -19,32 +19,41 @@ router
       .notEmpty();
     let errors = req.validationErrors();
 
-    if (errors) {
+    console.log(errors);
+
+    if (!errors) {
+      try {
+        const user = new User({
+          name: req.body.username,
+          email: req.body.email,
+        });
+        console.log("user created!");
+        user.setPassword(req.body.password);
+        console.log("password set");
+        await user.save();
+        res.render("login");
+      } catch (error) {
+        if (error) {
+          if (error.name === "MongoServerError" && error.code === 11000) {
+            // Duplicate username
+            return res.status(422).send({ message: "User already exist!" });
+          }
+        }
+        res.render("register", {
+          errorMessages: error,
+        });
+        return res.status(500).json({
+          message: "Internal Server Error!",
+          error,
+        });
+      }
+    } else {
       res.render("register", {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         errorMessages: errors,
       });
-    } else {
-      try {
-        const user = new User({
-          name: req.body.username,
-          email: req.body.email,
-        });
-        user.setPassword(req.body.password);
-        await user.save();
-        res.render("login");
-      } catch (error) {
-        if (error) {
-          console.log(error);
-          res.render("register", { errorMessages: error });
-        }
-        return res.status(500).json({
-          message: "Internal Server Error!",
-          error,
-        });
-      }
     }
   });
 

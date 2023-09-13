@@ -11,19 +11,6 @@ peer.on("open", function () {
   $("#my-id").text(peer.id);
 });
 
-// Receiving a call
-peer.on("call", function (call) {
-  // Answer the call automatically (instead of prompting user) for demo purposes
-  call.answer(window.localStream);
-  step3(call);
-});
-
-peer.on("error", function (err) {
-  alert(err.message);
-  // Return to step 2 if error occurs
-  step2();
-});
-
 // Click handlers setup
 $(function () {
   $("#make-call").click(function () {
@@ -42,25 +29,35 @@ $(function () {
   step1();
 });
 
-function step1() {
+// Receiving a call
+peer.on("call", function (call) {
+  // Answer the call automatically (instead of prompting user) for demo purposes
+  call.answer(window.localStream);
+  step3(call);
+});
+
+peer.on("error", function (err) {
+  alert(err.message);
+  // Return to step 2 if error occurs
+  step2();
+});
+
+async function step1() {
   // Get audio/video stream
-  navigator
-    .getUserMedia(
-      { audio: true, video: true },
-      function (stream) {
-        // Set your video displays
-        $("#my-video").prop("src", URL.createObjectURL(stream));
-        $("#my-video").get(0).play();
-        window.localStream = stream;
-        step2();
-      },
-      function () {
-        $("#step1-error").show();
-      }
-    )
-    .catch((err) => {
-      console.error(err);
-    });
+  try {
+    //Media capture devices includes video cameras and microphones
+    const constraints = { video: true, audio: true };
+    localStream = await navigator.mediaDevices.getUserMedia(constraints);
+    const videoElement = document.getElementById("my-video");
+    //Once a media device has been opened and we have a MediaStream available,
+    //we can assign it to a video or audio element to play the stream locally.
+    videoElement.srcObject = localStream;
+    step2();
+  } catch (error) {
+    $("#step1-error").show();
+    //Error opening video camera.
+    console.error("Error opening video camera.", error);
+  }
 }
 
 function step2() {
@@ -75,9 +72,18 @@ function step3(call) {
   }
 
   // Wait for stream on the call, then set peer video display
-  call.on("stream", function (stream) {
-    $("#second-video").prop("src", URL.createObjectURL(stream));
-    $("#second-video").get(0).play();
+  call.on("stream", async (stream) => {
+    // Get audio/video stream
+    try {
+      //Media capture devices includes video cameras and microphones
+      const videoElement = document.getElementById("second-video");
+      //Once a media device has been opened and we have a MediaStream available,
+      //we can assign it to a video or audio element to play the stream locally.
+      videoElement.srcObject = stream;
+    } catch (error) {
+      //Error opening video camera.
+      console.error("Error opening answer video camera.", error);
+    }
   });
 
   // UI stuff
