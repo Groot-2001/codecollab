@@ -1,9 +1,5 @@
-// Compatibility shim
-navigator.getUserMedia =
-  navigator.mediaDevices.getUserMedia ||
-  navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia;
-
+let localStream;
+let existingCall;
 // PeerJS object
 var peer = new Peer();
 
@@ -15,13 +11,13 @@ peer.on("open", function () {
 $(function () {
   $("#make-call").click(function () {
     // Initiate a call!
-    var call = peer.call($("#callToId").val(), window.localStream);
+    var call = peer.call($("#callToId").val(), localStream);
 
     step3(call);
   });
 
   $("#end-call").click(function () {
-    window.existingCall.close();
+    existingCall.close();
     step2();
   });
 
@@ -32,7 +28,7 @@ $(function () {
 // Receiving a call
 peer.on("call", function (call) {
   // Answer the call automatically (instead of prompting user) for demo purposes
-  call.answer(window.localStream);
+  call.answer(localStream);
   step3(call);
 });
 
@@ -52,6 +48,11 @@ async function step1() {
     //Once a media device has been opened and we have a MediaStream available,
     //we can assign it to a video or audio element to play the stream locally.
     videoElement.srcObject = localStream;
+
+    videoElement.onloadedmetadata = () => {
+      videoElement.play();
+    };
+
     step2();
   } catch (error) {
     $("#step1-error").show();
@@ -67,8 +68,8 @@ function step2() {
 
 function step3(call) {
   // Hang up on an existing call if present
-  if (window.existingCall) {
-    window.existingCall.close();
+  if (existingCall) {
+    existingCall.close();
   }
 
   // Wait for stream on the call, then set peer video display
@@ -80,6 +81,9 @@ function step3(call) {
       //Once a media device has been opened and we have a MediaStream available,
       //we can assign it to a video or audio element to play the stream locally.
       videoElement.srcObject = stream;
+      videoElement.onloadedmetadata = () => {
+        videoElement.play();
+      };
     } catch (error) {
       //Error opening video camera.
       console.error("Error opening answer video camera.", error);
@@ -87,7 +91,7 @@ function step3(call) {
   });
 
   // UI stuff
-  window.existingCall = call;
+  existingCall = call;
   $("#second-id").text(call.peer);
   call.on("close", step2);
   $("#step1, #step2").hide();

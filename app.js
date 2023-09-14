@@ -28,13 +28,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
+//registering the helper function
 hbs.registerHelper("isObject", function (object, options) {
   console.log("object:", object);
   if (typeof object === "object") {
-    console.log("its an object");
     return options.fn(this);
   } else {
-    console.log("not an object");
     return options.inverse(this);
   }
 });
